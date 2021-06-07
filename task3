@@ -1,0 +1,104 @@
+AWS CSA 2020 LW-World informatic Tasks.
+Under the mentorship of Sir Vimal Daga
+Task 3
+Create an AWS EC2 instance
+Configure the instance with Apache Webserver.
+Download php application name “WordPress””.
+As wordpress stores data at the backend in MySQL
+Database server. Therefore, you need to setup a MySQL server using AWS RDS service using Free Tier.
+Provide the endpoint/connection string to the
+WordPress application to make it work.
+Solution
+I will mostly be using CLI for the tasks
+Create an AWS EC2 instance
+Here I will be using windows cmd prompt which has been setup with aws cli to connect to my aws account
+
+C:\Users\USER\aws ec2 run-instances --image-id ami-010aff33ed5991201 --instsance-type t2.micro --count 1 --subnet-id subnet-17a5b07f --security-group-ids sg-95050df2 --key-name zanos
+
+2. Configure the instance with Apache Webserver.
+So in other to setup Apache webserver. lets ssh into the instance using putty, so to do that we need the public Ip of the instance and the private key we use in creating the instance
+Ip=13.127.120.70
+private key= zanos1
+lets open putty and input the Ip
+switch to the root user account by typing #sudo su -
+then type
+#yum install -y httpd (to istall the apache webserver)
+to start the httpd type
+#systemctl start httpd
+now lets test to see if apache web site is working by using the instance public IPv4 DNS witch is “ec2–13–127–120–70.ap-south-1.compute.amazonaws.com”
+
+3. Download php application name “WordPress””.
+in order to download WordPress you will need to download php first
+#yum install -y php
+
+now lets download wordpress
+#wget http://wordpress.org/latest.tar.gz
+
+lets untar latest.tar.gz
+#tar -xzvf latest.tar.gz 
+
+4. Database server. Therefore, you need to setup a MySQL server using AWS RDS service using Free Tier.
+setting up MySQL server using AWS RDS service using Free Tier.
+open your aws account then go to service click on RDS
+.Click on create database.
+under
+  4-1.Choose a database creation method
+    .Click on standard create
+  4-2.Engine options
+    .Click on mySQL
+  4-3.Template
+    .Click on Free tier
+  4-4.Settings
+    .Enter DB instance identifier "modestDB-1"
+	.Master usename "ariel"
+	.Master password "*********"
+   networking
+   choose VPC
+   Choose subnet-17a5b07f
+   click on Yes under Public access
+  4-5.Additional configuration
+    .Database options
+	  enter the initial database name "urielDB
+Finally click on create database
+
+now lets open the wordpress but to do that lets first move the wordpress dir into the /var/www/html dir of the instance
+#mv wordpress /var/www/html
+#cd /var/www/html
+#cd wordpress
+#cp wp-config-sample.php wp-config.php
+#vim wp-config.php
+inside the file fill the define:
+{//**MYSQL settings - You can get this info from your web host ** //
+/** The name of the database for wordpress */
+define( 'DB_NAME', 'urielDB' );
+/** MYSQL database username */
+define  'DB_USER', 'ariel' );
+/** MYSQL database password*/
+define  'DB_PASSWORD', '*******' );
+/** MYSQL hostname*/
+define  'DB_HOST', 'modestdb-1ck2aozvum8ku.ap-south-1.rds.amazonaws.com' );
+
+after word copy in the same file this api https://api.wordpress.org/secret-key/1.1/salt/ then paste in the browser and run it then copy the content
+"define('AUTH_KEY',         'g4qHeI@vU+G1g-g(s,)+DC9L2s?H5H+EY5P=Jj_GLX4h$wp&.gLN7(O0^[K|UZA-');
+define('SECURE_AUTH_KEY',  'uyXD+VIDyEW8LoOB{C#_I3qeG0m<4}n)nxQFmm`=suP$,MNd-HB<c{0 HJJ8+lNt');
+define('LOGGED_IN_KEY',    'CcMVMg;TL K+Z@E7Dn/c~~+Sl-C./zIf^PB]bR,QV_&{_Y8&e-  .Z-|VnGfEso*');
+define('NONCE_KEY',        'Zdb]C_:z&rmbVU}{FU3?QhKP3 EB51@bYmcp+utoQ3]C<m[CV;EjikR{gg79`$z]');
+define('AUTH_SALT',        'wM=kpG3xV1(eYEMqBBe0#cAW(N/-4U|lT-^Pg.9j$YZ p%;_HUsLc/FG;iQC--ee');
+define('SECURE_AUTH_SALT', '+76V8kA<-A_O;H5*Q+5%$?xxHw[L|K,:th`i-G[;aCnlX]_-CcI-K(96~NL1Y-AD');
+define('LOGGED_IN_SALT',   '%Wa~SrP:kniii-fs-QaV.T`WR<Ij 71] m0M$K6+v*n C%m+F8/g#Ye+>%a?jt3$');
+define('NONCE_SALT',       '!,h2y%1z`ADD>l8hjDUmevR{9]%9+27`&f.i1.N[RlRsd5?-lCnc,5=>A9n)<od=');" and replace it in the file and type :X to close ans exit
+
+lets install lamp-mariadb10.2-php7.2 php7.
+root@ip-172–31–33–137 wordpress]# amazon-linux-extras install -y lamp-mariadb10.2-php7.2 php7.
+
+now lets restart httpd
+then go and copy the Public IPv4 DNS of the instance plus the wordpress folder name and open it in a browser
+“ec2–13–127–120–70.ap-south-1.compute.amazonaws.com/zanise”
+
+It work perfectly thanks to Sir Vimal and the linux world informatics team
+
+For more details visit my blog:
+blog link:https://kzanise.medium.com/aws-csa-2020-lw-world-informatic-tasks-87d6bea5f213
+
+#worldrecordholder #makingindiafutureready #cloudcomputing #aws #awscloud #awscsa2020 #rightmentor #deepknowledge #linuxworld #vimaldaga #righteducation
+By zannise Azel Khan
