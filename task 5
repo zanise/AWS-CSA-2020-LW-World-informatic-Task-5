@@ -1,0 +1,95 @@
+AWS CSA 2020 LW-World informatic Tasks.
+Under the mentorship of Sir Vimal Daga
+
+Task 5
+Create High Availability Architecture with AWS CLI
+The architecture includes -
+- Webserver configured on EC2 Instance
+- Document Root(/var/www/html) made persistent by mounting on EBS Block Device.
+- Static objects used in code such as pictures stored in S3
+- Setting up Content Delivery Network using CloudFront and using the origin domain as S3 bucket.
+- Finally place the Cloud Front URL on the webapp code for security and low latency.
+
+Solution
+Create High Availability Architecture with AWS CLI
+The architecture includes -
+- Webserver configured on EC2 Instance
+- Document Root(/var/www/html) made persistent by mounting on EBS Block Device.
+
+1. lets create an ec2 instance
+C:\Users\USER\aws ec2 run-instances --image-id ami-010aff33ed5991201 --instsance-type t2.micro --count 1 --subnet-id subnet-17a5b07f --security-group-ids sg-95050df2 --key-name zanos
+
+2. lets create a volume (EBS)
+C:\Users\USER\aws ec2 create-volume --volume-type gp2 --size 1 --availability-zone ap-south-1a
+
+3. Attaching EBS to EC2
+C:\Users\USER>aws ec2 attach-volume --instance-id i-0e809520f2463ed93 --device /dev/sdf --volume-id vol-0f3e7ab51bf9d3380
+
+4- Formating EBS partition for that we will need to ssh into the instance using putty. for that we need the instane
+Public IPv4
+private key
+then login as ec2-user
+once in the CLI of the instance switch to root user by typing sudo su - 
+once in the root account type the following cmds:
+   . fdisk /dev/xvdf (to enter the EBS which you want to format)
+   . take "n" (to choose the partition type)
+   . take "p" ( to choose the primary partition type)
+   . take"1" ( to choose the partition number)
+   . First sector 2048
+   . last sector 2097151
+   . click enter to create partition 
+   . take "w" (to save the partition)
+ 
+5. lets format the partition created
+ #mkfs.xfs /dev/xvdf1
+
+6. lets install apache webserver
+#yum install -y httpd
+
+7. lets mount /dev/xvdf1 on /var/www/html
+#mount /dev/xvdf1 /var/www/html
+
+8. writing a webapp code in the /var/www/html
+#cd /var/www/html
+#vim webapp.html
+<body bgcolor="aqua">
+ <h1 style="color:grey">Welcome to my website!!!</h1>
+ <p>The place where things happen.</p>
+ <img src="" height="200" width="300"/>
+ <img src="" height="200" width="300"/>
+ </body>
+ press Esc key then type :x to save and exit from vim
+ 
+ 9- Lets create an s3 bucket then upload pictures there
+  .Go to service then click on s3
+  .Click on create bucket
+  .Fill the bucket name and the aws region that is all then click on create bucket
+  .Lets upload photos to the bucket
+  .Click on the created bucket then click on upload then it will take you directly to your local computer from there you can choose what so ever pis you want to upload to the bucket
+  .once you select the pics click on upload.
+  .once the pic upload in the bucket copy the bucket url for example this url of the bucket i just created "zanisebucket.s3.amazonaws.com"
+  
+ 10. lets create a distribution in cloudfront using this bucket url(zanisebucket.s3.amazonaws.com) using cmd prompt
+ C:\Users\USER>aws cloudfront create-distribution --origin-domain-name zanisebucket.s3.amazonaws.com
+ once the distribution created it will create a domain name(d1rn6bw8qxkqi1.cloudfront.net)
+ so for the two pics i upload this are the links:
+ https://d1rn6bw8qxkqi1.cloudfront.net/zani.jpg
+ https://d1rn6bw8qxkqi1.cloudfront.net/zanis.jpg
+ 
+ 11. So lets Finally place the Cloud Front URL on the webapp code for security and low latency.
+ Go to the webapp code in /var/www/html and paste the verious url of the various pics in the source of the image
+<body bgcolor="aqua">
+ <h1 style="color:grey">Welcome to my website!!!</h1>
+ <p>The place where things happen.</p>
+ <img src="https://d1rn6bw8qxkqi1.cloudfront.net/zanis.jpg" height="200" width="300"/>
+ <img src="https://d1rn6bw8qxkqi1.cloudfront.net/zani.jpg" height="200" width="300"/>
+ </body>
+:x 
+then go to the browser enter the instance IP then the webapp name
+http://52.66.71.133/webapp.html for more details visit my blog
+blog link: https://kzanise.medium.com/aws-csa-2020-lw-world-informatic-tasks-d58967e16173
+
+It work perfectly thanks to Sir Vimal and the linux world informatics team
+#worldrecordholder #makingindiafutureready #cloudcomputing #aws#awscloud #awscsa2020 #rightmentor #deepknowledge #linuxworld #vimaldaga #righteducation
+
+by zanise Azel khan
