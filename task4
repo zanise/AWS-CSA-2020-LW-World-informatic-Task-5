@@ -1,0 +1,32 @@
+AWS CSA 2020 LW-World informatic Tasks.
+Under the mentorship of Sir Vimal Daga
+Task 4
+Research on industrial use cases of AWS SQS and create a blog/article for the same.
+Solution
+Amazon Simple Queue Service (SQS) is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications. SQS eliminates the complexity and overhead associated with managing and operating message oriented middleware, and empowers developers to focus on differentiating work. Using SQS, you can send, store, and receive messages between software components at any volume, without losing messages or requiring other services to be available.
+Benefits
+Eliminate administrative overhead
+AWS manages all ongoing operations and underlying infrastructure needed to provide a highly available and scalable message queuing service. With SQS, there is no upfront cost, no need to acquire, install, and configure messaging software, and no time-consuming build-out and maintenance of supporting infrastructure. SQS queues are dynamically created and scale automatically so you can build and grow applications quickly and efficiently.
+Reliably deliver messages
+Use Amazon SQS to transmit any volume of data, at any level of throughput, without losing messages or requiring other services to be available. SQS lets you decouple application components so that they run and fail independently, increasing the overall fault tolerance of the system. Multiple copies of every message are stored redundantly across multiple availability zones so that they are available whenever needed.
+Keep sensitive data secure
+You can use Amazon SQS to exchange sensitive data between applications using server-side encryption (SSE) to encrypt each message body. Amazon SQS SSE integration with AWS Key Management Service (KMS) allows you to centrally manage the keys that protect SQS messages along with keys that protect your other AWS resources. AWS KMS logs every use of your encryption keys to AWS CloudTrail to help meet your regulatory and compliance needs.
+Scale elastically and cost-effectively
+Amazon SQS leverages the AWS cloud to dynamically scale based on demand. SQS scales elastically with your application so you don’t have to worry about capacity planning and pre-provisioning. There is no limit to the number of messages per queue, and standard queues provide nearly unlimited throughput. Costs are based on usage which provides significant cost saving versus the “always-on” model of self-managed messaging middleware.
+Use cases
+1- AWS Services Used: Amazon SNS & Amazon SQS
+The NASA Image and Video Library provides easy access to more than 140,000 still images, audio recordings, and videos — documenting NASA’s more than half a century of achievements in exploring the vast unknown. The architecture includes Amazon SQS to decouple incoming jobs from pipeline processes and Amazon Simple Notification Service to trigger the processing pipeline when new content is updated.
+
+2. Oyster.com uses Amazon Web Services to store and process images for their website. The team uses Amazon EC2 and Amazon SQS in an integrated workflow to generate the sizes they need for each photo. SQS communicates the photos that need to be processed and the status of the jobs.
+
+3. Change Healthcare uses AWS services like Amazon EC2, Amazon S3, Amazon SQS, and Amazon SNS to handle millions of confidential transactions daily from its clients while maintaining with full compliance with healthcare industry regulations, including HIPAA.
+
+4. Petroleum retailers in Australia are improving the performance and safety of their service stations with an AWS IoT–enabled solution called Fuelsuite from EMS. EMS specializes in solutions that provide petrol retailers with performance data gathered from sensors located around petrol stations. Fuelsuite uses AWS IoT Device Management to control the edge devices collecting petrol station data, processes the data with Amazon EC2, and schedules messages to and from the edge devices by using Amazon SQS.
+
+5. Capital One is modernizing their retail message queuing by migrating from self-managed message-oriented middleware systems to Amazon SQS. Capital One is using SQS to migrate several core banking applications to the cloud to ensure high availability and cost efficiency while simplifying administrative complexity and overhead.
+
+For more details visit my blog:
+blog link: https://kzanise.medium.com/aws-csa-2020-lw-world-informatic-tasks-95f0f6567e68
+
+THANKS TO SIR VIMAL DAGA AND THE LINUX WORLD INFORMATIC TEAM
+#worldrecordholder #makingindiafutureready #cloudcomputing #aws #awscloud #awscsa2020 #rightmentor #deepknowledge #linuxworld #vimaldaga #righteducation
